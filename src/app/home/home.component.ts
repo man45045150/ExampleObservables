@@ -18,7 +18,13 @@ export class HomeComponent implements OnInit ,OnDestroy{
 
   ngOnInit() {
     //interval is automaticlly add some numbers
-    const myNumbers = Observable.interval(1000);
+    const myNumbers = Observable.interval(1000)
+      //transform data
+      .map(
+        (data:number) =>{
+          return data * 2;
+        }
+      );
     this.numberObsSubcription =myNumbers.subscribe((number:number)=>{
       console.log(number);
     });
