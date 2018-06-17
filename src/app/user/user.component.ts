@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { UsersService } from './users.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -6,10 +7,14 @@ import { ActivatedRoute, Params } from '@angular/router';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit,OnDestroy {
+
   id: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private userService:UsersService) 
+  { }
 
   ngOnInit() {
     //subscribe() is observer part
@@ -24,6 +29,12 @@ export class UserComponent implements OnInit {
         //completed
         ()=>{}
       );
+  }
+  onActive(){
+    this.userService.userActived.next(this.id);
+  }
+  ngOnDestroy(): void {
+    this.userService.userActived.unsubscribe();
   }
 
 }
